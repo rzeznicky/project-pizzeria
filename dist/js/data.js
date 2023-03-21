@@ -110,6 +110,6 @@ dataSource.products = {
         },
       },
     },
-  },
+  }, 
 
 };
