@@ -40,13 +40,13 @@
     },
   };
 
-  // const settings = {
-  //   amountWidget: {
-  //     defaultValue: 1,
-  //     defaultMin: 1,
-  //     defaultMax: 9,
-  //   }
-  // };
+  const settings = {
+    amountWidget: {
+      defaultValue: 1,
+      defaultMin: 1,
+      defaultMax: 9,
+    }
+  };
 
   const templates = {
     menuProduct: Handlebars.compile(document.querySelector(select.templateOf.menuProduct).innerHTML),
@@ -62,8 +62,10 @@
       // console.log('newProduct: ', thisProduct);
       thisProduct.initAccordion();
       thisProduct.initOrderForm();
+      thisProduct.initAmountWidget();
       thisProduct.processOrder();
     }
+
     renderInMenu(){
       const thisProduct = this;
       /* [DONE] generate HTML based on template */
@@ -75,6 +77,7 @@
       /* [DONE] add element to menu */
       menuContainer.appendChild(thisProduct.element);
     }
+
     getElements(){
       const thisProduct = this;
     
@@ -84,7 +87,9 @@
       thisProduct.cartButton = thisProduct.element.querySelector(select.menuProduct.cartButton);
       thisProduct.priceElem = thisProduct.element.querySelector(select.menuProduct.priceElem);
       thisProduct.imageWrapper = thisProduct.element.querySelector(select.menuProduct.imageWrapper);
+      thisProduct.amountWidgetElem = thisProduct.element.querySelector(select.menuProduct.amountWidget);
     }
+
     initAccordion(){
       const thisProduct = this;
       /* [DONE] find the clickable trigger (the element that should react to clicking) */
@@ -106,26 +111,31 @@
         thisProduct.element.classList.toggle(classNames.menuProduct.wrapperActive);
       });
     }
+
     initOrderForm(){
       const thisProduct = this;
       // console.log('initOrderForm ');
-
       thisProduct.form.addEventListener('submit', function(event){
         event.preventDefault();
         thisProduct.processOrder();
       });
-
       for(let input of thisProduct.formInputs){
         input.addEventListener('change', function(){
           thisProduct.processOrder();
         });
       }
-
       thisProduct.cartButton.addEventListener('click', function(event){
         event.preventDefault();
         thisProduct.processOrder();
       });
     } 
+
+    initAmountWidget(){
+      const thisProduct = this;
+
+      thisProduct.amountWidget = new AmountWidget(thisProduct.amountWidgetElem);
+    }
+
     processOrder(){
       const thisProduct = this;
       console.log('processOrder ');
@@ -169,15 +179,53 @@
       // update calculated price in the HTML
       thisProduct.priceElem.innerHTML = price;
     }
+   
   }
-  // class AmountWidget {
-  //   constructor(element) {
-  //     const thisWidget = this;
 
-  //     console.log('AmountWidget: ', thisWidget);
-  //     console.log('constructor arguments: ', element);
-  //   }
-  // }
+  class AmountWidget {
+    constructor(element) {
+      const thisWidget = this;
+      thisWidget.getElements(element);
+      thisWidget.initActions();
+      thisWidget.setValue(thisWidget.input.value);
+      
+      console.log('AmountWidget: ', thisWidget);
+      // console.log('constructor arguments: ', element);
+    }
+    getElements(element){
+      const thisWidget = this;
+      thisWidget.element = element;
+      thisWidget.input = thisWidget.element.querySelector(select.widgets.amount.input);
+      thisWidget.linkDecrease = thisWidget.element.querySelector(select.widgets.amount.linkDecrease);
+      thisWidget.linkIncrease = thisWidget.element.querySelector(select.widgets.amount.linkIncrease);
+    }
+    setValue(value){
+      const thisWidget = this;
+
+      const newValue = parseInt(value);
+
+      /* Add validation */
+      if(thisWidget.value !== newValue && !isNaN(newValue)){
+        thisWidget.value = newValue;
+      }
+      thisWidget.input.value = thisWidget.value;
+    }
+    initActions(){
+      const thisWidget = this;
+      thisWidget.input.addEventListener('change', function(event){
+        thisWidget.setValue(thisWidget.input.value);
+      });
+      thisWidget.linkDecrease.addEventListener('click', function(event){
+        event.preventDefault();
+        thisWidget.setValue(thisWidget.value - 1);
+      })
+      thisWidget.linkIncrease.addEventListener('click', function(event){
+        event.preventDefault();
+        thisWidget.setValue(thisWidget.value + 1);
+      })
+    }
+  }
+
   const app = {
     initMenu: function(){
       const thisApp = this;
