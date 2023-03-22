@@ -1,7 +1,7 @@
 node_modules
 
-# delete .DS_Store
+# .DS_Store
 **/.DS_Store
 
-# delete dist
+# dist
 dist
