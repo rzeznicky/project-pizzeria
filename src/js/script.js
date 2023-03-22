@@ -58,49 +58,117 @@
       thisProduct.id = id;
       thisProduct.data = data;
       thisProduct.renderInMenu();
-      console.log('newProduct: ', thisProduct);
+      thisProduct.getElements();
+      // console.log('newProduct: ', thisProduct);
       thisProduct.initAccordion();
+      thisProduct.initOrderForm();
+      thisProduct.processOrder();
     }
+
     renderInMenu(){
       const thisProduct = this;
-      /* generate HTML based on template */
+      /* [DONE] generate HTML based on template */
       const generatedHTML = templates.menuProduct(thisProduct.data);
-      /* create element using utils.createElementFromHTML */
+      /* [DONE] create element using utils.createElementFromHTML */
       thisProduct.element = utils.createDOMFromHTML(generatedHTML);
-      /* find menu container */
+      /* [DONE] find menu container */
       const menuContainer = document.querySelector(select.containerOf.menu);
-      /* add element to menu */
+      /* [DONE] add element to menu */
       menuContainer.appendChild(thisProduct.element);
     }
+
+    getElements(){
+      const thisProduct = this;
+    
+      thisProduct.accordionTrigger = thisProduct.element.querySelector(select.menuProduct.clickable);
+      thisProduct.form = thisProduct.element.querySelector(select.menuProduct.form);
+      thisProduct.formInputs = thisProduct.form.querySelectorAll(select.all.formInputs);
+      thisProduct.cartButton = thisProduct.element.querySelector(select.menuProduct.cartButton);
+      thisProduct.priceElem = thisProduct.element.querySelector(select.menuProduct.priceElem);
+    }
+
     initAccordion(){
       const thisProduct = this;
-      /* find the clickable trigger (the element that should react to clicking) */
-      const clickableTrigger = thisProduct.element.querySelector(select.menuProduct.clickable);
-      /* START: add event listener to clickable trigger on event click */
-      clickableTrigger.addEventListener('click', function(event) {
-        /* prevent default action for event */
+      /* [DONE] find the clickable trigger (the element that should react to clicking) */
+      // const clickableTrigger = thisProduct.element.querySelector(select.menuProduct.clickable);
+      /* [DONE] START: add event listener to clickable trigger on event click */
+      thisProduct.accordionTrigger.addEventListener('click', function(event) {
+        /* [DONE] prevent default action for event */
         event.preventDefault();
         console.log('clicked');
-        /* find active product (product that has active class) */
+        /* [DONE] find active product (product that has active class) */
         const activeProducts = document.querySelectorAll(select.all.menuProductsActive);
-        /* if there is active product and it's not thisProduct.element, remove class active from it */
+        /* [DONE] if there is active product and it's not thisProduct.element, remove class active from it */
         for(let product of activeProducts){
           if(product !== thisProduct.element) {
             product.classList.remove('active');
           } 
         };
-        /* toggle active class on thisProduct.element */
+        /* [DONE] toggle active class on thisProduct.element */
         thisProduct.element.classList.toggle(classNames.menuProduct.wrapperActive);
       });
+    }
+    initOrderForm(){
+      const thisProduct = this;
+      console.log('initOrderForm ');
+
+      thisProduct.form.addEventListener('submit', function(event){
+        event.preventDefault();
+        thisProduct.processOrder();
+      });
+
+      for(let input of thisProduct.formInputs){
+        input.addEventListener('change', function(){
+          thisProduct.processOrder();
+        });
+      }
+
+      thisProduct.cartButton.addEventListener('click', function(event){
+        event.preventDefault();
+        thisProduct.processOrder();
+      });
     } 
+    processOrder(){
+      const thisProduct = this;
+      console.log('processOrder ');
+
+      // covert form to object structure e.g. { sauce: ['tomato'], toppings: ['olives', 'redPeppers']}
+      const formData = utils.serializeFormToObject(thisProduct.form);
+      console.log('formData', formData);
+
+      // set price to default price
+      let price = thisProduct.data.price;
+
+      // for every category (param)...
+      for(let paramId in thisProduct.data.params) {
+        // determine param value, e.g. paramId = 'toppings', param = { label: 'Toppings', type: 'checkboxes'... }
+        const param = thisProduct.data.params[paramId];
+        // console.log(paramId, param);
+
+        // for every option in this category
+        for(let optionId in param.options) {
+          // determine option value, e.g. optionId = 'olives', option = { label: 'Olives', price: 2, default: true }
+          const option = param.options[optionId];
+          // console.log(optionId, option);
+          // console.log('item price check: ', option.price);
+          if(formData[paramId] && formData[paramId].includes(optionId) && option.default !== true) {
+            price = price + option.price;
+          }
+          else if(formData[paramId] && !formData[paramId].includes(optionId) && option.default == true) {
+            price = price - option.price;
+          }
+        }
+      }
+      // update calculated price in the HTML
+      thisProduct.priceElem.innerHTML = price;
+    }
   }
 
   const app = {
     initMenu: function(){
       const thisApp = this;
+
       console.log('thisApp.data: ', thisApp.data);
-      //const testProduct = new Product();
-      //console.log('testProduct: ', testProduct);
       for(let productData in thisApp.data.products){
         new Product(productData, thisApp.data.products[productData]);
       }
@@ -114,6 +182,7 @@
 
     init: function(){
       const thisApp = this;
+
       console.log('*** App starting ***');
       console.log('thisApp:', thisApp);
       console.log('classNames:', classNames);
