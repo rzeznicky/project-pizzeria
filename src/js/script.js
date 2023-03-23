@@ -292,8 +292,9 @@
     }
     initActions(){
       const thisWidget = this;
-      thisWidget.input.addEventListener('change', function(){
-        thisWidget.setValue(thisWidget.input.value); // dlaczego nie thisWidget.value ?
+      thisWidget.input.addEventListener('change', function(event){
+        thisWidget.setValue(event.target.value); 
+        console.log(event);
       });
       thisWidget.linkDecrease.addEventListener('click', function(event){
         event.preventDefault();
