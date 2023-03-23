@@ -6,6 +6,7 @@
   const select = {
     templateOf: {
       menuProduct: '#template-menu-product',
+      cartProduct: '#template-cart-product',
     },
     containerOf: {
       menu: '#product-list',
@@ -26,7 +27,7 @@
     },
     widgets: {
       amount: {
-        input: 'input[name="amount"]',
+        input: 'input.amount',
         linkDecrease: 'a[href="#less"]',
         linkIncrease: 'a[href="#more"]',
       },
@@ -245,17 +246,17 @@
     }
     initActions(){
       const thisWidget = this;
-      thisWidget.input.addEventListener('change', function(event){
+      thisWidget.input.addEventListener('change', function(){
         thisWidget.setValue(thisWidget.input.value); // dlaczego nie thisWidget.value ?
       });
       thisWidget.linkDecrease.addEventListener('click', function(event){
         event.preventDefault();
         thisWidget.setValue(thisWidget.value - 1);
-      })
+      });
       thisWidget.linkIncrease.addEventListener('click', function(event){
         event.preventDefault();
         thisWidget.setValue(thisWidget.value + 1);
-      })
+      });
     }
     announce(){
       const thisWidget = this;
@@ -265,6 +266,25 @@
     }
   }
 
+  class Cart {
+    constructor(element) {
+      const thisCart = this;
+
+      thisCart.products = [];
+
+      thisCart.getElements(element);
+
+      console.log('new Cart:', thisCart);
+    }
+    
+    getElements(element) {
+      const thisCart = this;
+
+      thisCart.dom = {};
+
+      thisCart.dom.wrapper = element;
+    }
+  }
   const app = {
     initMenu: function(){
       const thisApp = this;
@@ -281,9 +301,15 @@
       thisApp.data = dataSource;
     },
 
-    init: function(){
+    initCart: function(){
       const thisApp = this;
 
+      const cartElem = document.querySelector(select.containerOf.cart);
+      thisApp.cart = new Cart(cartElem);
+    },
+
+    init: function(){
+      const thisApp = this;
       // console.log('*** App starting ***');
       // console.log('thisApp:', thisApp);
       // console.log('classNames:', classNames);
@@ -291,6 +317,7 @@
       // console.log('templates:', templates);
       thisApp.initData();
       thisApp.initMenu();
+      thisApp.initCart();
     },
   };
 
