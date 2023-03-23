@@ -317,23 +317,21 @@
       const thisCart = this;
 
       thisCart.products = [];
-
       thisCart.getElements(element);
       thisCart.initActions();
-      console.log('new Cart:', thisCart);
+      // console.log('new Cart:', thisCart);
     }
     
     getElements(element) {
       const thisCart = this;
-
       thisCart.dom = {};
       thisCart.dom.wrapper = element;
       thisCart.dom.toggleTrigger = thisCart.dom.wrapper.querySelector(select.cart.toggleTrigger);
+      thisCart.dom.productList = thisCart.dom.wrapper.querySelector(select.cart.productList);
     }
 
     initActions(){
       const thisCart = this;
-      
       thisCart.dom.toggleTrigger.addEventListener('click', function(){
         thisCart.dom.wrapper.classList.toggle(classNames.cart.wrapperActive);
       });
@@ -342,6 +340,9 @@
     add(menuProduct){
       const thisCart = this;
 
+      const generatedHTML = templates.cartProduct(menuProduct);
+      const generatedDOM = utils.createDOMFromHTML(generatedHTML);
+      thisCart.dom.productList.appendChild(generatedDOM);
       console.log('adding product: ', menuProduct);
     }
 
@@ -360,13 +361,11 @@
 
     initData: function(){
       const thisApp = this;
-
       thisApp.data = dataSource;
     },
 
     initCart: function(){
       const thisApp = this;
-
       const cartElem = document.querySelector(select.containerOf.cart);
       thisApp.cart = new Cart(cartElem);
     },
