@@ -265,10 +265,10 @@
   }
 
   class AmountWidget {
-    constructor(element) {
+    constructor(element, initialValue = settings.amountWidget.defaultValue) {
       const thisWidget = this;
       thisWidget.getElements(element);
-      thisWidget.setValue(settings.amountWidget.defaultValue);
+      thisWidget.setValue(initialValue);
       thisWidget.initActions();
       
       // console.log('AmountWidget: ', thisWidget);
@@ -286,7 +286,6 @@
       const thisWidget = this;
 
       const newValue = parseInt(value);
-
       /* Add validation */
       if(thisWidget.value !== newValue && !isNaN(newValue) && newValue <= settings.amountWidget.defaultMax && newValue >= settings.amountWidget.defaultMin){
         thisWidget.value = newValue; 
@@ -433,7 +432,7 @@
       const thisCartProduct = this;
       
       thisCartProduct.amountWidget = new AmountWidget(thisCartProduct.dom.amountWidget);
-      thisCartProduct.amountWidget.setValue(thisCartProduct.amount);
+      // thisCartProduct.amountWidget.setValue(thisCartProduct.amount);
       thisCartProduct.dom.amountWidget.addEventListener('updated', function(){
         thisCartProduct.amount = thisCartProduct.amountWidget.value;
         thisCartProduct.price = thisCartProduct.amount * thisCartProduct.priceSingle;
