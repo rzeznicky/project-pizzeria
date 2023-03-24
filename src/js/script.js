@@ -371,7 +371,7 @@
         totalNumber += product.amount;
         subtotalPrice += product.price;
       }
-      if(!totalNumber){
+      if(totalNumber){
         thisCart.totalPrice = subtotalPrice + deliveryFee;
         // console.log(thisCart.totalPrice);
       }
