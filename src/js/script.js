@@ -413,10 +413,12 @@
         totalNumber: thisCart.totalNumber,
         deliveryFee: settings.cart.defaultDeliveryFee,
         products: [],
-      }
+      };
+
       for(let prod of thisCart.products) {
         payload.products.push(prod.getData());
       }
+
       const options = {
         method: 'POST',
         headers: {
@@ -432,7 +434,6 @@
         .then(function(parsedResponse){ 
           console.log('parsedResponse: ', parsedResponse);
         });
-      ;
     }
   }
 
