@@ -406,14 +406,33 @@
       
       const url = settings.db.url + '/' + settings.db.orders;
       const payload = {
-        address: thisCart.dom.address.input.value,
-        phone: thisCart.dom.phone.input.value,
+        address: thisCart.dom.address.value,
+        phone: thisCart.dom.phone.value,
         totalPrice: thisCart.totalPrice,
         subtotalPrice: thisCart.subtotalPrice,
         totalNumber: thisCart.totalNumber,
         deliveryFee: settings.cart.defaultDeliveryFee,
-        //products: tablica obecnych w koszyku produktów
+        products: [],
       }
+      for(let prod of thisCart.products) {
+        payload.products.push(prod.getData());
+      }
+      const options = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+      };
+      
+      fetch(url, options)
+        .then(function(response){
+          return response.json();
+        })
+        .then(function(parsedResponse){ 
+          console.log('parsedResponse: ', parsedResponse);
+        });
+      ;
     }
   }
 
@@ -480,6 +499,20 @@
         thisCartProduct.remove();
         // console.log('remove dziala');
       });
+    }
+    
+    getData(){
+      const thisCartProduct = this;
+      
+      const productSummary = {
+        id: thisCartProduct.id,
+        name: thisCartProduct.name,
+        amount: thisCartProduct.amount,
+        priceSingle: thisCartProduct.priceSingle,
+        price: thisCartProduct.price,
+        params: thisCartProduct.params,
+      };
+      return productSummary;
     }
   }
 
