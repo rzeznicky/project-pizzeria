@@ -382,10 +382,10 @@
         thisCart.totalNumber += product.amount;
         thisCart.subtotalPrice += product.price;
       }
-      const deliveryFee = thisCart.totalNumber > 0 ? settings.cart.defaultDeliveryFee : 0;
-      thisCart.totalPrice = thisCart.subtotalPrice + deliveryFee;
+      thisCart.deliveryFee = thisCart.totalNumber > 0 ? settings.cart.defaultDeliveryFee : 0;
+      thisCart.totalPrice = thisCart.subtotalPrice + thisCart.deliveryFee;
       
-      thisCart.dom.deliveryFee.innerHTML = deliveryFee;
+      thisCart.dom.deliveryFee.innerHTML = thisCart.deliveryFee;
       thisCart.dom.subtotalPrice.innerHTML = thisCart.subtotalPrice;
       thisCart.dom.totalNumber.innerHTML = thisCart.totalNumber;
       for(let item of thisCart.dom.totalPrice) {
@@ -411,7 +411,7 @@
         totalPrice: thisCart.totalPrice,
         subtotalPrice: thisCart.subtotalPrice,
         totalNumber: thisCart.totalNumber,
-        deliveryFee: settings.cart.defaultDeliveryFee,
+        deliveryFee: thisCart.deliveryFee,
         products: [],
       };
 
@@ -522,8 +522,9 @@
       const thisApp = this;
 
       // console.log('thisApp.data: ', thisApp.data);
-      for(let productData in thisApp.data.products){
-        new Product(thisApp.data.products[productData].id, thisApp.data.products[productData]);
+      /* zmiana z thisApp.data.products na thisApp.data */
+      for(let productData in thisApp.data){
+        new Product(thisApp.data[productData].id, thisApp.data[productData]);
       }
     },
 
@@ -541,7 +542,8 @@
           // console.log('parsedResponse: ', parsedResponse);
 
           /* save parsedResponse as thisApp.data.products */
-          thisApp.data.products = parsedResponse;
+          /* zmiana z thisApp.data.products na thisApp.data */
+          thisApp.data = parsedResponse;
 
           /* execute initMenu method */
           thisApp.initMenu();
