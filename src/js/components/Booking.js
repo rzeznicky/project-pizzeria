@@ -9,7 +9,7 @@ class Booking {
   }
   render(container){
     const thisBooking = this;
-    thisBooking.dom = {}
+    thisBooking.dom = {};
     thisBooking.dom.wrapper = container;
     thisBooking.dom.wrapper.innerHTML = templates.bookingWidget();
     thisBooking.dom.peopleAmount = thisBooking.dom.wrapper.querySelector(select.booking.peopleAmount);
