@@ -1,8 +1,16 @@
 import { settings, select, classNames } from './settings.js';
 import Product from './components/Product.js';
 import Cart from './components/Cart.js';
+import Booking from './components/Booking.js';
 
 const app = {
+  initBooking: function(){
+    const thisApp = this;
+
+    thisApp.widgetContainer = document.querySelector(select.containerOf.booking);
+    new Booking(thisApp.widgetContainer);
+  },
+
   initPages: function(){
     const thisApp = this;
 
@@ -52,7 +60,7 @@ const app = {
       link.classList.toggle(
         classNames.nav.active, 
         link.getAttribute('href') == '#' + pageId
-        );
+      );
     }
   },
 
@@ -110,9 +118,9 @@ const app = {
     // console.log('templates:', templates);
 
     thisApp.initPages();
-
     thisApp.initData();
     thisApp.initCart();
+    thisApp.initBooking();
   },
 };
 
