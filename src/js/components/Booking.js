@@ -1,32 +1,37 @@
 import { select, templates } from '../settings.js';
 import AmountWidget from './AmountWidget.js';
+import DatePicker from './DatePicker.js';
+import HourPicker from './HourPicker.js';
 
 class Booking {
   constructor(container){
-    const thisBooking = this;
-    thisBooking.render(container);
-    thisBooking.initWidgets();
+    const thisWidget = this;
+    thisWidget.render(container);
+    thisWidget.initWidgets();
   }
   render(container){
-    const thisBooking = this;
-    thisBooking.dom = {};
-    thisBooking.dom.wrapper = container;
-    thisBooking.dom.wrapper.innerHTML = templates.bookingWidget();
-    thisBooking.dom.peopleAmount = thisBooking.dom.wrapper.querySelector(select.booking.peopleAmount);
-    thisBooking.dom.hoursAmount = thisBooking.dom.wrapper.querySelector(select.booking.hoursAmount);
+    const thisWidget = this;
+    thisWidget.dom = {};
+    thisWidget.dom.wrapper = container;
+    thisWidget.dom.wrapper.innerHTML = templates.bookingWidget();
+    thisWidget.dom.peopleAmount = thisWidget.dom.wrapper.querySelector(select.booking.peopleAmount);
+    thisWidget.dom.hoursAmount = thisWidget.dom.wrapper.querySelector(select.booking.hoursAmount);
+    thisWidget.dom.datePickerWrapper = thisWidget.dom.wrapper.querySelector(select.widgets.datePicker.wrapper);
+    thisWidget.dom.hourPickerWrapper = thisWidget.dom.wrapper.querySelector(select.widgets.hourPicker.wrapper);
   }
-  initWidgets(){
-    const thisBooking = this;
 
-    thisBooking.amountWidgetPeople = new AmountWidget(thisBooking.dom.peopleAmount);
-    thisBooking.dom.peopleAmount.addEventListener('updated', function(){
-      
-    });
-    thisBooking.amountWidgetHours = new AmountWidget(thisBooking.dom.hoursAmount);
-    thisBooking.dom.hoursAmount.addEventListener('updated', function(){
+  initWidgets(){
+    const thisWidget = this;
+ 
+    new AmountWidget(thisWidget.dom.peopleAmount);
+    thisWidget.dom.peopleAmount.addEventListener('updated', function(){});
+    new AmountWidget(thisWidget.dom.hoursAmount);
+    thisWidget.dom.hoursAmount.addEventListener('updated', function(){});
     
-    });
-    
+    new DatePicker(thisWidget.dom.datePickerWrapper);
+    new HourPicker(thisWidget.dom.hourPickerWrapper);
+
+
   }
 }
 
