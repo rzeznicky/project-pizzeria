@@ -9,7 +9,6 @@ class Product {
     thisProduct.data = data;
     thisProduct.renderInMenu();
     thisProduct.getElements();
-    // console.log('newProduct: ', thisProduct);
     thisProduct.initAccordion();
     thisProduct.initOrderForm();
     thisProduct.initAmountWidget();
@@ -18,13 +17,9 @@ class Product {
 
   renderInMenu() {
     const thisProduct = this;
-    /* [DONE] generate HTML based on template */
     const generatedHTML = templates.menuProduct(thisProduct.data);
-    /* [DONE] create element using utils.createElementFromHTML */
     thisProduct.element = utils.createDOMFromHTML(generatedHTML);
-    /* [DONE] find menu container */
     const menuContainer = document.querySelector(select.containerOf.menu);
-    /* [DONE] add element to menu */
     menuContainer.appendChild(thisProduct.element);
   }
 
@@ -42,29 +37,20 @@ class Product {
 
   initAccordion() {
     const thisProduct = this;
-    /* [DONE] find the clickable trigger (the element that should react to clicking) */
-    // const clickableTrigger = thisProduct.element.querySelector(select.menuProduct.clickable);
-    /* [DONE] START: add event listener to clickable trigger on event click */
     thisProduct.accordionTrigger.addEventListener('click', function (event) {
-      /* [DONE] prevent default action for event */
       event.preventDefault();
-      // console.log('clicked');
-      /* [DONE] find active product (product that has active class) */
       const activeProducts = document.querySelectorAll(select.all.menuProductsActive);
-      /* [DONE] if there is active product and it's not thisProduct.element, remove class active from it */
       for (let product of activeProducts) {
         if (product !== thisProduct.element) {
           product.classList.remove('active');
         }
       }
-      /* [DONE] toggle active class on thisProduct.element */
       thisProduct.element.classList.toggle(classNames.menuProduct.wrapperActive);
     });
   }
 
   initOrderForm() {
     const thisProduct = this;
-    // console.log('initOrderForm ');
     thisProduct.form.addEventListener('submit', function (event) {
       event.preventDefault();
       thisProduct.processOrder();

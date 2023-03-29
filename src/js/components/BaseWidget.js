@@ -10,16 +10,13 @@ class BaseWidget {
 
   get value(){
     const thisWidget = this;
-
     return thisWidget.correctValue;
   }
 
   set value(value){
     const thisWidget = this;
-
     const newValue = thisWidget.parseValue(value);
 
-    /* Add validation */
     if (thisWidget.correctValue !== newValue && thisWidget.isValid(newValue)) {
       thisWidget.correctValue = newValue;
       thisWidget.announce();
@@ -30,7 +27,6 @@ class BaseWidget {
 
   setValue(value){
     const thisWidget = this;
-
     thisWidget.value = value;
   }
 
