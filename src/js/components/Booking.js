@@ -202,7 +202,7 @@ class Booking {
     
     for (let starter of thisBooking.dom.starters) {
       if(starter.checked){
-        payload.starters.push(starter.value)
+        payload.starters.push(starter.value);
       }
     } 
 
