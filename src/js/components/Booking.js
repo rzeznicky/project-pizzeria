@@ -13,6 +13,7 @@ class Booking {
     thisBooking.getData();
     
     thisBooking.selectedTable = 0;
+    thisBooking.starters = [];
   }
 
   getData() {
@@ -122,7 +123,7 @@ class Booking {
 
     thisBooking.date = thisBooking.datePicker.value;
     thisBooking.hour = utils.hourToNumber(thisBooking.hourPicker.value);
-
+    
     let allAvailable = false;
 
     if(
@@ -185,7 +186,43 @@ class Booking {
   }
 
   sendBooking(){
+    const thisBooking = this;
 
+    const url = settings.db.url + '/' + settings.db.bookings;
+    const payload = {
+      date: thisBooking.datePicker.value,
+      hour: thisBooking.hourPicker.value,
+      table: thisBooking.selectedTable ? Number(thisBooking.selectedTable) : null,
+      duration: thisBooking.hoursAmount.value,
+      ppl: thisBooking.peopleAmount.value,
+      starters: [],
+      phone: thisBooking.dom.phone.value,
+      address: thisBooking.dom.address.value,
+    };
+    
+    for (let starter of thisBooking.dom.starters) {
+      if(starter.checked){
+        payload.starters.push(starter.value)
+      }
+    } 
+
+    const options = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(payload),
+    };
+
+    fetch(url, options)
+      .then(function (response) {
+        return response.json();
+      })
+      .then(function (parsedResponse) {
+        console.log('parsedResponse: ', parsedResponse);
+        thisBooking.makeBooked(payload.date, payload.hour, payload.duration, payload.table);
+        thisBooking.updateDOM();
+      });
   }
 
   render(wrapper) {
@@ -203,6 +240,11 @@ class Booking {
     
     thisBooking.dom.floorPlan = thisBooking.dom.wrapper.querySelector(select.booking.floorPlan);
     thisBooking.dom.form = thisBooking.dom.wrapper.querySelector(select.booking.form);
+  
+    thisBooking.dom.phone = thisBooking.dom.wrapper.querySelector(select.booking.phone);
+    thisBooking.dom.address = thisBooking.dom.wrapper.querySelector(select.booking.adress);
+
+    thisBooking.dom.starters = thisBooking.dom.wrapper.querySelectorAll(select.booking.starters);
   }
 
   initWidgets() {
