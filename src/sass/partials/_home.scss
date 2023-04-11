@@ -8,7 +8,7 @@
 
 // Splash
 .splash {
-  padding: 20px 0;
+  padding-bottom: 40px;
 
   h2 {
     font-family: $font-header;
@@ -22,7 +22,7 @@
 
     &__box {
       height: 120px;
-      max-width: 300px;
+      flex: 50%;
       align-items: center;
       position: relative;
 
@@ -92,7 +92,7 @@
 
 // Gallery
 .gallery {
-  padding: 90px 0;
+  padding: 40px 0;
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
@@ -137,6 +137,7 @@
       left: 50%;
       transform: translate(-50%, -50%);
       z-index: 1;
+      white-space: nowrap;
 
       i {
         color: $color-main;
@@ -152,5 +153,14 @@
         }
       }
     }
+  }
+}
+
+// Footer
+.footer a {
+  color: $color-main;
+
+  &:hover {
+    color: $color-danger;
   }
 }
