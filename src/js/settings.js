@@ -68,10 +68,9 @@ export const select = {
     phone: '.order-confirmation [name="phone"]',
     adress: '.order-confirmation [name="address"]',
     starters: '.booking-options input[type="checkbox"]',
-
   },
   nav: {
-    links: '.main-nav a',
+    links: '.main-nav a, .home-link',
   },
 };
 
