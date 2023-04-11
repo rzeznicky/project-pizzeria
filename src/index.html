@@ -79,7 +79,7 @@
   </div>
 
   <script id="template-home" type="text/x-handlebars-template">
-    <div class="splash">
+    <div class="splash"> <!-- Splash -->
       <div class="splash__links">
         <div class="splash__links__box">
           <img src="./images/home/pizza-1.jpg" alt="image">
@@ -101,8 +101,42 @@
         <h3>TUE-SUN, 12 PM - 12 AM</h3>
       </div>
     </div>
-    
-    <div class="gallery">
+    <div class="main-carousel"data-flickity='{ "autoPlay": true }'> <!-- Carousel -->
+      <div class="carousel__cell">
+        <div class="carousel__cell__image">
+          <img src="images/home/pizza-3.jpg" alt="image">
+        </div>
+        <div class="carousel__cell__text">
+          <h2>Delicious food</h2>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean vitae augue quam. Cras in orci urna. 
+            Nullam interdum tortor at ante tempus, vitae ultrices lectus tristique.</p>
+          <p>~ Kate</p>
+        </div>
+      </div>
+      <div class="carousel__cell">
+        <div class="carousel__cell__image">
+          <img src="images/home/pizza-3.jpg" alt="image">
+        </div>
+        <div class="carousel__cell__text">
+          <h2>Best service</h2>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean vitae augue quam. Cras in orci urna. 
+            Nullam interdum tortor at ante tempus, vitae ultrices lectus tristique.</p>
+          <p>~ John</p>
+        </div>
+      </div>
+      <div class="carousel__cell">
+        <div class="carousel__cell__image">
+          <img src="images/home/pizza-3.jpg" alt="image">
+        </div>
+        <div class="carousel__cell__text">
+          <h2>Good snacks</h2>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean vitae augue quam. Cras in orci urna. 
+            Nullam interdum tortor at ante tempus, vitae ultrices lectus tristique.</p>
+          <p>~ Michael</p>
+        </div>
+      </div>
+    </div>
+    <div class="gallery"> <!-- Gallery -->
       <div class="gallery__card">
         <div class="gallery__card__icons">
             <i class="fas fa-heart"></i>
@@ -146,7 +180,7 @@
         <img src="images/home/pizza-9.jpg" alt="image" />
       </div>
     </div>
-    <footer class="footer">
+    <footer class="footer"> <!-- Footer -->
       <a href="#">View more on Instagram</a>
     </footer>
   </script>
