@@ -6,3 +6,89 @@
   border-radius: $radius;
 }
 
+.splash {
+  padding: 20px 0;
+
+  h2 {
+    font-family: $font-header;
+    font-size: 25px;
+  }
+}
+
+.splash-links {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.box {
+  height: 120px;
+  max-width: 300px;
+  align-items: center;
+  position: relative;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: $radius;
+  }
+
+  &:hover {
+    p {
+      transition: all 0.5s ease-in-out;
+      font-family: $font-text;
+      transform: translate(0%, -50%);
+    }
+
+    h2 {
+      transform: translate(0%, 0%);
+      transition: all 0.5s ease-in-out;
+    }
+  }
+}
+
+.box-body {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  overflow: hidden;
+
+  a {
+    text-decoration: none;
+    color: $color-light;
+    white-space: nowrap;
+  }
+
+  h2 {
+    transform: translate(-0%, 50%);
+  }
+
+  p {
+    transform: translate(-0%, 150%);
+    opacity: 1;
+    overflow: hidden;
+  }
+}
+
+.splash-info {
+  height: 120px;
+  display: flex;
+  flex-direction: column;
+  border-radius: $radius;
+  background-color: $color-main;
+  color: $color-light;
+  text-align: center;
+  margin-top: 10px;
+  justify-content: center;
+
+  h2 {
+    margin: 5px 0;
+  }
+
+  h3 {
+    margin: 5px 0;
+  }
+}
